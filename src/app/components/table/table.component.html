@@ -1,0 +1,348 @@
+<div class="admin-table">
+  <table class="table table-striped table-bordered">
+    <thead *ngIf="!!columns">
+      <tr>
+        <ng-container *ngFor="let column of columns">
+          <td [ngClass]="column.class">
+            <div>
+              <b>{{column.title}}</b>
+              <!-- <i *ngIf="column && column.sort" class="sort-array fa"
+                      [ngClass]="{'fa-chevron-down': column.sort === 'asc', 'fa-chevron-up': column.sort === 'desc'}"></i> -->
+            </div>
+          </td>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody [ngClass]="{'role-class':role_data}">
+      <ng-container *ngIf="!!rows">
+        <tr *ngFor="let row of rows ;index as j;">
+          <ng-container *ngFor="let column of columns;index as i;">
+            <td class="td-container" *ngIf="!column.property">{{getData(row, column.name)}}</td>
+            <ng-container *ngIf="!!column.property">
+              <ng-container [ngSwitch]="column.property">
+                <td class="td-container" *ngSwitchCase="'isBoolean'">{{getData(row, column.name)}}</td>
+                <td class="td-container" *ngSwitchCase="'isSwitchBtn'" style="width: 10%;">
+                  <div class="row justify-content-center">
+                    <label class="switch switch-pill switch-success">
+                      <input type="checkbox" class="switch-input" [checked]="row.user.isActive"
+                        (change)="switchBtnEvent($event , row.user.id)">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'isVisible'" style="width: 10%;">
+                  <div class="row justify-content-center">
+                    <label class="switch switch-pill switch-success">
+                      <input type="checkbox" class="switch-input" [checked]="getData(row, column.name)"
+                        (change)="isVisibleEvent($event , row.id)">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'roles'">
+                  <div class="m-1 badge badge-primary" *ngFor="let role of row.roleNames">
+                    {{role.name}}
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'width10'" style="width: 10%;">
+                  {{getData(row, column.name)}}
+                </td>
+                <td class="td-container" *ngSwitchCase="'width8'" style="width: 8%;">
+                  {{getData(row, column.name)}}
+                </td>
+                <!-- <td class="td-container" *ngSwitchCase="'width20'" style="width: 9%;">
+                  {{getData(row, column.name)}}
+                </td> -->
+                <td class="td-container" *ngSwitchCase="'width18'" style="width: 18%;">
+                  {{getData(row, column.name)}}
+                </td>
+                <td class="td-container" *ngSwitchCase="'width20'" style="width: 20%;">
+                  {{getData(row, column.name)}}
+                </td>
+                <td class="td-container" *ngSwitchCase="'lastLogin'">
+                  {{setModifyDate(row.user.lastLogin)}}
+                </td>
+                <td class="td-container" *ngSwitchCase="'isApprovedBy'">
+                  <div *ngIf="row.approvedBy==null || row.approvedBy?.length==undefined">
+                    <font size=2 class="text-muted">Not approved</font>
+                  </div>
+                  <div *ngIf="row.approvedBy!=null || row.approvedBy?.length>0">
+                    <div>{{row.approvedBy}}</div>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'isApprovedOn'">
+                  <div
+                    *ngIf=" row.approvedOn=='Jan 1st 0001' || row.approvedOn==null || row.approvedOn=='Invalid date'">
+                    <font size=2 class="text-muted">Not approved</font>
+                  </div>
+                  <div *ngIf="row.approvedBy!=null">
+                    <div> {{ formatDate(row.approvedOn) }}</div>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'listOfStrings'">
+                  <div class="m-1 badge badge-primary" *ngFor="let item of getData(row, column.name)">
+                    {{item}}
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'isImage'">
+                  <img *ngIf="!!row.imageUrl" class="m-1" [src]="'data:image/jpeg;base64,'+ row.imageUrl +''"
+                    (click)="open('data:image/jpeg;base64,'+ row.imageUrl +'',0)">
+                  <font size=2 class="text-muted" *ngIf="!row.imageUrl">No image</font>
+                </td>
+                <td class="td-container" *ngSwitchCase="'taxPdf'" style="width: 20%;">
+                  <div class="pdf-link" *ngFor="let file of getData(row, column.name)">
+                    <a *ngIf="file.url!=null" (click)="openNewWindow(showPreviewPdf(file.url))">
+                      &#9900; <u> Document.pdf - ({{file.language}})</u>
+                    </a>
+                  </div>
+                </td>
+                <!-- <td class="td-container" *ngSwitchCase="'isPdf'">
+                  <div class="pdf-link" *ngFor="let file of getData(row, column.name); index as f">
+                    <a *ngIf="file!=null" (click)="openNewWindow(showPreviewPdf(file))">
+                      &#9900; <u> Document-{{f + 1}}.pdf</u>
+                    </a>
+                  </div>
+                </td> -->
+                <td class="td-container" *ngSwitchCase="'isTag'" style="width: 10%;">
+                  <div class="m-1 badge badge-primary" *ngFor="let tag of getData(row, column.name)">
+                    {{tag.name}}
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'isAuthor'" style="width: 10%;">
+                  <div class="m-1" *ngFor="let author of getData(row, column.name)">
+                    <a class="pdf-link" *ngIf="author.authorBioLink!=null"
+                      (click)="openNewWindow(author.authorBioLink)">
+                      &#9900; <u>{{author.authorName}}</u>
+                    </a>
+                    <div *ngIf="author.authorBioLink==null">
+                      &#9900; {{author.authorName}}
+                    </div>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'isLink'">
+                  <a class="pdf-link"
+                    (click)="openNewWindow(getData(row, column.name))"><u>{{getData(row, column.name)}}</u> </a>
+                </td>
+                <td class="td-container" *ngSwitchCase="'notificationType'">
+                  {{notificationTypeEnumToString(getData(row, column.name))}}
+                </td>
+                <td class="td-container" *ngSwitchCase="'isStatus'" style="width:6%;">
+                  <div *ngIf="getData(row, column.name)==inEdit">In Edit</div>
+                  <div *ngIf="getData(row, column.name)==published">Published</div>
+                  <div *ngIf="getData(row, column.name)==deletion">Sent for Deletion</div>
+                  <div *ngIf="getData(row, column.name)==created">Created</div>
+                  <div *ngIf="getData(row, column.name)==pending">In Approval</div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'blogPdfs'">
+                  <div *ngIf="getData(row, column.name).length==0">No PDFs </div>
+                  <div *ngIf="getData(row, column.name).length==1">{{getData(row, column.name).length}} PDF</div>
+                  <div *ngIf="getData(row, column.name).length>1">{{getData(row, column.name).length}} PDFs</div>
+                </td>
+                <td *ngSwitchCase="'isContent'" style="width: 18%;">
+                  <div class="grid-content">
+                    <span [innerHTML]="getData(row, column.name)"></span>
+                  </div>
+                </td>
+                <td class="td-container" *ngSwitchCase="'lawStatus'">
+                  <div class="m-1 badge badge-primary" *ngIf="row.status==pending">
+                    Publish
+                  </div>
+                  <div class="m-1 badge badge-danger" *ngIf="row.status==deletion">
+                    Delete
+                  </div>
+                </td>
+                <td class="td-container text-center" *ngSwitchCase="'actions'" style="width: 10%;">
+                  <div class="row justify-content-center" *ngIf="i == columns.length -1 ">
+                    <div class="btn-group">
+                      <div *ngIf="edit===true">
+                        <button id="bEdit" type="button" pTooltip="Edit" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2" (click)="actionEvent('edit',row.id)"><i
+                            class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="editItemsForApproval===true">
+                        <button id="bEdit" type="button" pTooltip="Edit" tooltipPosition="top"
+                          [disabled]="row.status==pending" class="btn btn-icon btn-outline-primary mr-2"
+                          (click)="actionEvent('edit',row.id)"><i class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="edit_notification===true">
+                        <button id="bEditNotification" type="button" pTooltip="Edit" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2"
+                          (click)="actionEventNotification('edit',row.slug)"
+                          [disabled]="row.isReleased || row.notificationTypeString=='APPROVAL_REQUEST'"><i
+                            class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="sendToLawAmendment===true">
+                        <button id="sendToLawAmendment" type="button" pTooltip="Send to Amendments"
+                          tooltipPosition="top" class="btn btn-icon btn-outline-primary mr-2"
+                          [disabled]="row.status==pending || row.status==inEdit || row.status==deletion"
+                          (click)="actionEvent('send',row.id)"><i class="fa fa-paper-plane"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="sendToChangeStatus===true">
+                        <button id="sendToLawAmendment" type="button" pTooltip="Send to update" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2"
+                          [disabled]="row.status==pending || row.status==inEdit || row.status==deletion"
+                          (click)="actionEvent('send',row.id)"><i class="fa fa-paper-plane"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete_blogPost===true">
+                        <button id="deleteBP" type="button" pTooltip="Delete" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-danger"
+                          [disabled]="row.status==pending || row.status==inEdit || row.status==deletion"
+                          (click)="actionEvent('delete',row.id)"><i class="fa fa-remove"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="edit_lawAmendment===true">
+                        <button id="bEditLawAmendment" type="button" pTooltip="Edit" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2" [disabled]="row.status==pending"
+                          (click)="actionEvent('edit',row.id)"><i class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete_lawAmendment===true">
+                        <button id="bElimLaw" type="button" pTooltip="Delete" class="btn btn-icon btn-outline-danger"
+                          (click)="actionEvent('delete',row.id)" tooltipPosition="top"
+                          [disabled]="row.status==pending"><i class="fa fa-remove" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="deleteItemsForApproval===true">
+                        <button id="bElimLaw" type="button" pTooltip="Delete" class="btn btn-icon btn-outline-danger"
+                          (click)="actionEvent('delete',row.id)" tooltipPosition="top"
+                          [disabled]="row.status==pending"><i class="fa fa-remove" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="edit_approve===true">
+                        <button id="bEditApprove" type="button" pTooltip="Edit"
+                          class="btn btn-icon btn-outline-primary mr-2" tooltipPosition="top"
+                          (click)="actionEventLawAmendment('edit',row.lawArticleId)"><i class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete_approve===true">
+                        <button id="bElimApprove" type="button" pTooltip="Delete"
+                          class="btn btn-icon btn-outline-danger"
+                          (click)="actionEventLawAmendment('delete',row.lawArticleId)"><i class="fa fa-remove"
+                            tooltipPosition="top" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete_section===true">
+                        <button id="bElimApprove" type="button" pTooltip="Delete"
+                          class="btn btn-icon btn-outline-danger" (click)="actionEvent('delete',row.id)"
+                          [disabled]="row.status==inEdit || row.status==pending || row.status==deletion"><i
+                            class="fa fa-remove" tooltipPosition="top" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="edit_user===true">
+                        <button id="bEditUser" type="button" pTooltip="Edit" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2" (click)="actionEvent('edit',row.user.id)"><i
+                            class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="edit_importantTaxDate===true">
+                        <button id="bEditUser" type="button" pTooltip="Edit" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-primary mr-2" (click)="actionEvent('edit', row.id)"><i
+                            class="fa fa-pencil"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete===true">
+                        <button id="bElim" type="button" pTooltip="Delete" class="btn btn-icon btn-outline-danger"
+                          tooltipPosition="top" (click)="actionEvent('delete',row.id)"><i class="fa fa-remove"
+                            aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="delete_notification===true">
+                        <button id="bElimNotification" type="button" pTooltip="Delete" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-danger"
+                          (click)="actionEventNotification('delete',row.slug)"><i class="fa fa-remove"
+                            aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="publish===true">
+                        <button id="bPublish" type="button" pTooltip="Publish"
+                          class="btn btn-icon btn-outline-info ml-2" tooltipPosition="top"
+                          (click)="publishEvent(row.id)"><i class="fa fa-upload" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="sendToApprove===true">
+                        <button id="bsend" type="button" pTooltip="Send for Approval" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-info ml-2" (click)="sendToApproval(row.id)"
+                          [disabled]="row.status===pending"><i class="fa fa-share-square-o" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="sendForApproval===true">
+                        <button id="bsend" type="button" pTooltip="Send for Approval" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-info ml-2" (click)="actionEvent('forApproval',row.id)"
+                          [disabled]="row.status===pending"><i class="fa fa-share-square-o" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="translate===true">
+                        <button id="translate" type="button" pTooltip="Translate" tooltipPosition="top"
+                          [disabled]="row.hasTwoLanguages" class="btn btn-icon btn-outline-success ml-2"
+                          (click)="actionEvent('translate',row.id)"><i class="fa fa-globe" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div *ngIf="fullContent===true">
+                        <button id="bsend" type="button" pTooltip="See full content" tooltipPosition="top"
+                          class="btn btn-icon btn-outline-info ml-2" (click)="actionEvent('fullContent',row.id)"><i
+                            class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="!rows || rows.length == 0 ">
+        <tr>
+          <td [attr.colspan]="columns.length" class="empty-message">
+            <div class="shadow p-3 bg-white rounded">
+              No data found
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="!!rows && rows.length > 0">
+  <nav aria-label="Page navigation example">
+    <div class="row">
+      <div class="col-auto">
+        <ul class="pagination" style="margin: 0;">
+          <li class="page-item">
+            <a class="page-link" aria-label="Previous" style="cursor: pointer;" (click)="previous()">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <ng-container *ngFor="let item of NumberOfPages(paginationStart,paginationEnd) ; index as i">
+            <li class="page-item" title="{{pageNumber}}, {{i+1}}" id="{{i+1}}"
+              [ngClass]="{'active': paginationModel.PageNumber<3 ? i+1===pageNumber : i+1===3  }">
+              <a class="page-link" style="cursor: default;">{{item}}</a>
+              <!-- (click)="paginate(i+1)" -->
+            </li>
+          </ng-container>
+          <li class="page-item">
+            <a class="page-link" aria-label="Next" style="cursor: pointer;" (click)="next()">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-4" style="display: flex; align-items: center;">
+        <select class="select-css" (change)="onPageSizeChange($event)" [(ngModel)]="paginationModel.PageSize">
+          <option [value]="5">5</option>
+          <option [value]="10" selected>10</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+</div>

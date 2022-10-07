@@ -1,0 +1,26 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Category</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Category</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="fa fa-user-plus"></i></span>
+        </div>
+        <input type="text" id="name" [(ngModel)]="name" class="form-control" placeholder="Name a Category *"
+          aria-label="Name" aria-describedby="basic-addon1">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)=" onSubmit()">Save</button>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

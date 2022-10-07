@@ -1,0 +1,6 @@
+export enum notificationTypeEnum {
+  GENERAL = 'GENERAL',
+  IMPORTANT_TAX_DATE = 'IMPORTANT_TAX_DATE',
+  TAX_NEWS = 'TAX_NEWS',
+  APPROVAL_REQUEST = 'APPROVAL_REQUEST'
+}

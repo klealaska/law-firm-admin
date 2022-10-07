@@ -1,0 +1,89 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Law Article Related Link</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Law Article Related Links</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label for="law" class=" col-form-label ">Select law</label>
+                        <ng-select id="law" [items]="articleList" [(ngModel)]="articleId" bindLabel="title"
+                            bindValue="id" placeholder="Select law... *"
+                            (ngModelChange)="getChaptersOnLawChange($event)" [disabled]="pageType=='addUrl'">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label for="chapter" class="col-form-label">Select section</label>
+                        <ng-select id="chapter" [items]="chapterList" [(ngModel)]="chapterId" bindLabel="title"
+                            bindValue="id" placeholder="Select section... *">
+                        </ng-select>
+                        <div class="text-muted text-color"> <small>Tip: Choose a law first*</small></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <ng-container>
+      <div class="form-group row">
+        <label for="description" class="col-sm-3 col-form-label ">Description</label>
+        <div class="col-sm-9">
+          <textarea type="text" [(ngModel)]="description" class="form-control" id="description"
+            placeholder="Description *"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="url" class="col-sm-3 col-form-label ">Url</label>
+        <div class="col-sm-9">
+          <input type="text" [(ngModel)]="url" class="form-control" id="url" placeholder="Url *">
+        </div>
+      </div>
+      <!-- <div class="form-group row" *ngIf="pageType=='add' || pageType=='addUrl'">
+                <label for="section" class="col-sm-3 col-form-label ">Urls</label>
+                <div class="col-sm-9">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-1">
+                            <button (click)="addInput()" class="btn btn-ghost-secondary btn-add-input"
+                                [disabled]="chapterId==null">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="col-sm-11">
+                            <div class="row mt-1" *ngFor="let item of inputsArray; index as i">
+                                <div class="col-sm-10">
+                                    <input id="section" placeholder="Url *" class="form-control"
+                                        [(ngModel)]="urlList[i]" [disabled]="chapterId==null">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button (click)="removeInput(i)" class="btn btn-ghost-secondary btn-add-input"
+                                        [disabled]="inputsArray.length ==1">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+      <!-- <div class="form-group row">
+                <label for="url" class="col-sm-3 col-form-label ">Url</label>
+                <div class="col-sm-9">
+                    <input type="text" [(ngModel)]="url" class="form-control" id="url" placeholder="Url *">
+                </div>
+            </div> -->
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" (click)="onSubmit()" [disabled]="isSubmitted">Save</button>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

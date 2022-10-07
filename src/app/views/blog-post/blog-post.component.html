@@ -1,0 +1,33 @@
+<div class="animated fadeIn">
+  <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+    <p style="color: white"> Loading... </p>
+  </ngx-spinner>
+  <tabset>
+    <tab heading="Published Blog Posts" (selectTab)="onTabSelect(publishedTab)" [active]="activeTab==publishedTab">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+                autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <br>
+        <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+          [rows]="data | filter:filterQuery" [columns]="columns" [fullContent]="true" [edit]="false"
+          [sendToChangeStatus]="true" (actionClicked)="onActionClick($event)" [delete]="false" [delete_blogPost]="true"
+          (sendTochangeStatusInEdit)="changeStatusInEdit($event)">
+        </app-table>
+      </div>
+    </tab>
+    <tab heading="Add / Edit Blog Post" (selectTab)="onTabSelect(inEditTab)" [active]="activeTab==inEditTab">
+      <app-blog-post-approval #blogPostApproval></app-blog-post-approval>
+    </tab>
+  </tabset>
+</div>
+<app-add-edit-blog-post #editElement>
+</app-add-edit-blog-post>

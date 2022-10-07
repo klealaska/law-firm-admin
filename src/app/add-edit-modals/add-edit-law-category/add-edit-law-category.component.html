@@ -1,0 +1,99 @@
+<!-- <button *ngIf="pageType==add" class="btn btn-outline-success btn-icon btn-round" (click)="openModal(template)"><i
+    class="fa fa-plus"></i>
+</button> -->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType==add" class="modal-title pull-left">Add {{lawType}}</h5>
+    <h5 *ngIf="pageType==edit" class="modal-title pull-left">Edit Law Category</h5>
+    <h5 *ngIf="pageType==translate" class="modal-title pull-left">Add Translation in English ({{language}})</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onHideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="form-group row" *ngIf="pageType==edit">
+        <label for="firstname" class="col-sm-3 col-form-label col-form-label">Current category</label>
+        <div class="col-sm-9">
+          <div class="input-group mb-6 current-category">
+            <label><strong>{{catViewOrder}}</strong>.{{catFullPath}}</label>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="lawType!= chapter && pageType=='add'" class="form-group row">
+        <label for="parentCategory" class="col-sm-3 col-form-label col-form-label">Parent category</label>
+        <div *ngIf="lawType== lawGroup" class="col-sm-9">
+          <ng-select [items]="rootList" (change)="onChange($event)" bindLabel="name" bindValue="id"
+            [(ngModel)]="catParentId" placeholder="Root" [disabled]="true">
+          </ng-select>
+        </div>
+        <div *ngIf="lawType== law" class="col-sm-9">
+          <ng-select [items]="lawGroupList" (change)="onChange($event)" bindLabel="fullPath" bindValue="id"
+            [(ngModel)]="catParentId" placeholder="Root" [disabled]="pageType==edit">
+          </ng-select>
+        </div>
+      </div>
+      <div *ngIf="lawType== chapter  && pageType=='add'" class="form-group row">
+        <label for="parentCategory" class="col-sm-3 col-form-label col-form-label">Parent Category</label>
+        <div class="col-sm-9">
+          <ng-select [items]="lawList" (change)="onChange($event)" bindLabel="name" bindValue="id"
+            [(ngModel)]="catParentId" placeholder="Parent" [disabled]="pageType==edit">
+          </ng-select>
+        </div>
+      </div>
+      <!-- <br /> -->
+      <div class="form-group row">
+        <label for="firstname" class="col-sm-3 col-form-label col-form-label">Category Name </label>
+        <div class="col-sm-9">
+          <input type="text" id="name" [(ngModel)]="catName" class="form-control" placeholder="Name a category *"
+            aria-label="Name" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="firstname" class="col-sm-3 col-form-label col-form-label">Keyword</label>
+        <div class="col-sm-9">
+          <input type="text" *ngIf="pageType==add || pageType==translate" id="code" [(ngModel)]="catCode"
+            class="form-control" placeholder="Category Keyword *" aria-label="Code" aria-describedby="basic-addon1">
+          <input type="text" *ngIf="pageType==edit" id="code" [(ngModel)]="catCode" class="form-control"
+            placeholder="Category Keyword *" aria-label="Code" aria-describedby="basic-addon1" disabled>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="firstname" class="col-sm-3 col-form-label col-form-label">Category View order </label>
+        <div class="input-group col-sm-9">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">{{truncViewOrder}}.</span>
+          </div>
+          <input type="text" id="order" [(ngModel)]="catOrder" class="form-control" placeholder="*" aria-label="Order"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+      <!-- <div class="input-group mb-3" *ngIf="pageType==add || pageType==translate || catDepth==3">
+        <div class="form-check">
+          <input type="checkbox" class=" form-check-input" [(ngModel)]="categoryType" id="type">
+          <label class="form-check-label" for="type">Is Chapter?</label>
+        </div>
+      </div> -->
+
+      <div class="input-group mb-3" *ngIf="pageType==edit">
+        <div class="form-check">
+          <input type="checkbox" class=" form-check-input" [(ngModel)]="catIsVisible" id="catIsVisible">
+          <label class="form-check-label" for="catIsVisible">Is visible?</label>
+        </div>
+      </div>
+
+      <!-- <ng-select [items]="parentCategories"
+                    bindLabel="fullPath"
+                    bindValue="id"
+                    groupBy="fullPath"
+                    [(ngModel)]="selectedValue">
+            </ng-select> -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)="onSubmit()">Save</button>
+  </div>
+</ng-template>

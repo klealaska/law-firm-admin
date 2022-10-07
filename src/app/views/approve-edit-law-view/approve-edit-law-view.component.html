@@ -1,0 +1,156 @@
+<div class="animated fadeIn">
+  <div class="card m-4">
+    <div class="card-header" *ngIf="lawType!='fullContent'">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-3 mt-2">
+          <b>Edit Law for Approval</b>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-9">
+          <div class="row justify-content-end">
+            <button class="btn btn-outline-dark save-law-btn mr-2" (click)="goBack()">Go back</button>
+            <button class="btn btn-outline-dark  save-law-btn mr-2" (click)="ignoreApproval()">Refuse</button>
+            <button *ngIf="!isCollapsed" class="btn btn-outline-primary" data-toggle="collapse"
+              data-target="#collapseContent" role="button" [attr.aria-expanded]="isCollapsed"
+              aria-controls="collapseContent" (click)="isCollapsed=!isCollapsed">
+              Show Differences
+            </button>
+            <button *ngIf="isCollapsed" class="btn btn-outline-primary mr-2" data-toggle="collapse"
+              data-target="#collapseContent" role="button" [attr.aria-expanded]="isCollapsed"
+              aria-controls="collapseContent" (click)="isCollapsed=!isCollapsed">
+              Hide Differences
+            </button>
+            <button class="btn btn-outline-success save-law-btn mr-3" (click)="onSubmit()" [disabled]="isSubmitted">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-header" *ngIf="lawType=='fullContent'">
+      <div class="row">
+        <div class="col-sm-2 mt-2">
+          <b>Law for Approval</b>
+        </div>
+        <div class="col-sm-10">
+          <div class="row justify-content-end">
+            <button class="btn btn-outline-dark save-law-btn mr-2" (click)="goBack()">Go back</button>
+            <button class="btn btn-outline-dark save-law-btn mr-3" (click)="ignoreDeletion()">Refuse</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <ng-container>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="title1" class="col-lg-3 col-md-4 col-sm-5 col-form-label ">Section Title</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <input type="text" [(ngModel)]="title" class="form-control" id="title1" placeholder="Title *">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="code" class="col-lg-3 col-md-4 col-sm-5 col-form-label ">Keyword</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <input type="text" [(ngModel)]="code" class="form-control" id="code" placeholder="Keyword *" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="category" class="col-lg-3 col-md-4 col-sm-5 col-form-label ">Chapter</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <input type="text" [(ngModel)]="categoryName" class="form-control" id="category" placeholder="Chapter"
+                  disabled>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group row" *ngIf="lawType!= 'fullContent'">
+              <label for="author" class="col-lg-3 col-md-4 col-sm-5 col-form-label ">Author</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <ng-select id="author" [items]="authorList" [(ngModel)]="editor" bindLabel="fullName" bindValue="email"
+                  placeholder="Select author...">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group row" *ngIf="lawType=='fullContent'">
+              <label for="author" class="col-lg-3 col-md-4 col-sm-5 col-form-label">Sent by</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <ng-select id="author" [items]="authorList" [(ngModel)]="modifiedBy" bindLabel="fullName"
+                  bindValue="email" placeholder="Select author...">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="tags" class="col-lg-3 col-md-4 col-sm-5 col-form-label">Tags</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <ng-select [items]="tagList" [(ngModel)]="tagIds" bindLabel="name" bindValue="id" [multiple]="true"
+                  placeholder="Select tags...">
+                </ng-select>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="order" class="col-lg-3 col-md-4 col-sm-5 col-form-label ">Order</label>
+              <div class="col-lg-9 col-md-8 col-sm-7">
+                <input type="number" [(ngModel)]="order" min="1" class="form-control" id="order" placeholder="Order *">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <div class="input-group col">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input mt-1" [(ngModel)]="isOverview" id="isOverview">
+                  <label class="form-check-label" for="isOverview">Is Overview?</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="!isCollapsed">
+          <div class="col-sm-12">
+            <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="content" (change)="onChangeContent()">
+            </ckeditor>
+          </div>
+        </div>
+        <hr *ngIf="isCollapsed">
+        <div class="row mb-5">
+          <div class="collapse col-sm-12 " id="collapseContent">
+            <div class="row" *ngIf="isCollapsed">
+              <div class="col-sm-4">
+                <h6>Initial Text</h6>
+                <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="initialText" [disabled]="true">
+                </ckeditor>
+              </div>
+              <div class="col-sm-4">
+                <h6>Changed Text</h6>
+                <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="content" (change)="onChangeContent()">
+                </ckeditor>
+              </div>
+              <div class="col-sm-4">
+                <h6>Differences</h6>
+                <div class="display-diff">
+                  <div class="m-2" [innerHTML]="differences"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

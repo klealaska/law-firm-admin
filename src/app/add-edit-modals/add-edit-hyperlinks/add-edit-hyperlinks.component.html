@@ -1,0 +1,39 @@
+<ng-template #template>
+    <div class="modal-header">
+        <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Hyperlink</h5>
+        <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Hyperlink</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onHideModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <br />
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label" for="law">Law</label>
+                <div class="col-sm-9">
+                    <ng-select id="law" [items]="lawList" [(ngModel)]="lawCategoryId" bindLabel="name" bindValue="id"
+                        placeholder="Select law... *" disabled>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="codeName" class="col-sm-3 col-form-label col-form-label">Keyword </label>
+                <div class="col-sm-9">
+                    <input type="text" id="codeName" [(ngModel)]="codeName" class="form-control"
+                        placeholder="Code Name *" aria-label="codeName" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="codeName" class="col-sm-3 col-form-label col-form-label">URL </label>
+                <div class="col-sm-9">
+                    <input type="text" id="url" [(ngModel)]="url" class="form-control" placeholder="URL *"
+                        aria-label="url" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="onSubmit()" [disabled]="isSubmitted">Save</button>
+    </div>
+</ng-template>

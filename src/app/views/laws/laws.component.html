@@ -1,0 +1,93 @@
+<div class="animated fadeIn">
+  <tabset>
+    <tab heading="Sections" (selectTab)="onSectionTabEvent()" [active]="activeTab==lawTab">
+      <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+        <p style="color: white"> Loading... </p>
+      </ngx-spinner>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Search..." autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="row justify-content-end pr-3 m-1">
+              <button class=" btn btn-outline-success btn-icon btn-round" (click)="addSection()"
+                [disabled]="chapterId==null">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-1 ">
+            <label for="parent">Language</label>
+            <div class="btn-group" role="group">
+              <button type="button" [ngClass]="{'lang-btn' : language==albanian}" class="btn btn-outline-primary"
+                (click)="onLanguageSelect(albanian)">AL</button>
+              <button type="button" [ngClass]="{'lang-btn' : language==english}" class="btn btn-outline-primary"
+                (click)="onLanguageSelect(english)">EN</button>
+            </div>
+          </div>
+          <!-- <div class="col-sm-1 text-center">
+            <label class="switch  switch-label switch-success m-2">
+              <input type="checkbox" class="switch-input" checked >
+              <span class="switch-slider slider round" data-checked="AL" data-unchecked="EN"></span>
+            </label>
+          </div> -->
+          <div class="col-sm-3">
+            <label for="parent">Law Group</label>
+            <ng-select id="parent" [items]="parentList" [(ngModel)]="parentId" bindLabel="name" bindValue="id"
+              placeholder="Select law group... *" (ngModelChange)="getLaws($event)">
+            </ng-select>
+          </div>
+          <div class="col-sm-3">
+            <label for="law">Law</label>
+            <ng-select id="law" [items]="lawList" [(ngModel)]="lawId" bindLabel="name" bindValue="id"
+              placeholder="Select law... *" (ngModelChange)="getChapters($event)">
+            </ng-select>
+            <div class="text-muted text-color"> <small>Tip: Choose a main category first*</small></div>
+          </div>
+          <div class="col-sm-3">
+            <label for="chapter">Chapter</label>
+            <ng-select id="chapter" [items]="chapterList" [(ngModel)]="chapterId" bindLabel="name" bindValue="id"
+              placeholder="Select chapter... *" (ngModelChange)="getSectionsExtentionForCombo($event)">
+            </ng-select>
+            <div class="text-muted text-color"> <small>Tip: Choose a law first*</small></div>
+          </div>
+        </div>
+        <br>
+
+        <div class="row" *ngIf="sectionData.length>0">
+          <div class="col-sm-12">
+            <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+              [rows]="sectionData" [edit]="false" [sendToLawAmendment]="true" [columns]="columns"
+              [translate]="translateTableProp" [delete]="false" [delete_section]="true"
+              (actionClicked)="onActionClick($event)" [fullContent]="true">
+            </app-table>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="!sectionData || sectionData.length==0">
+          <div class="col-sm-12 text-center">
+            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+              <font size=3>No data found</font>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-add-edit-law-section #sectionModal></app-add-edit-law-section>
+    </tab>
+    <tab heading="My Amendments" (selectTab)="onAmendmentTabEvent()" [active]="activeTab==amendmentTab">
+      <div class="card-body">
+        <app-law-amendments #lawAmendment></app-law-amendments>
+      </div>
+    </tab>
+  </tabset>
+</div>

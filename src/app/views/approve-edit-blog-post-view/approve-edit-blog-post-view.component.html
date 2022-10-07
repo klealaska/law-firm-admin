@@ -1,0 +1,189 @@
+<div class="animated fadeIn">
+  <div class="card m-4">
+    <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+      <p style="color: white"> Loading... </p>
+    </ngx-spinner>
+    <div class="card-header no-padding">
+      <div class="row">
+        <div class="col-sm-3 mt-2">
+          <span>
+            <button class="btn" (click)="goBack()" pTooltip="Go back" tooltipPosition="top"><i
+                class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
+          </span>
+          <span>
+            <b *ngIf="pageType=='edit'">Edit Blog Post </b>
+            <b *ngIf="pageType=='add'">Add Blog Post </b>
+            <b *ngIf="pageType=='editToPublish'">Approve Blog Post </b>
+            <b *ngIf="pageType=='fullContent'"> Blog Post Data</b>
+          </span>
+        </div>
+        <div class="col-sm-9">
+          <div class="row justify-content-end">
+            <button *ngIf="pageType!='fullContent'" class="btn text-dark mt-2 mr-4" (click)="onSubmit()"
+              [disabled]="isSubmitted" pTooltip="Save" tooltipPosition="top"><i class="fa fa-floppy-o"
+                aria-hidden="true" style="font-size: 20px;"></i></button>
+            <button *ngIf="pageType=='editToPublish'" class="btn mr-4 text-dark mt-2" (click)="ignoreApproval()"
+              pTooltip="Refuse" tooltipPosition="top"><i class="fa fa-repeat" aria-hidden="true"
+                style="font-size: 20px;"></i></button>
+            <button *ngIf="pageType=='fullContent'" class="btn mr-4 text-dark mt-2" (click)="ignoreDeletion()"
+              pTooltip="Refuse" tooltipPosition="top"><i class="fa fa-repeat" aria-hidden="true"
+                style="font-size: 20px;"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label for="title" class="col-sm-3 col-form-label ">Title</label>
+            <div class="col-sm-9">
+              <input type="text" [(ngModel)]="title" class="form-control" id="title" placeholder="Title *"
+                [disabled]="pageType=='fullContent'">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label for="publishedDate" class="col-sm-3 col-form-label ">Published Date</label>
+            <div class="col-sm-9">
+              <input id="publishedDate" placeholder="Published Date *" class="form-control bsDatepicker" bsDatepicker
+                [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [(bsValue)]="publishedDate"
+                [disabled]="pageType=='fullContent'">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label for="userGroupList" class="col-sm-3 col-form-label">Industry</label>
+            <div class="col-sm-9">
+              <ng-select [items]="userGroupList" [(ngModel)]="userGroupId" bindLabel="name" bindValue="id"
+                placeholder="Select industry..." [disabled]="pageType=='fullContent'">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label for="tags" class="col-sm-3 col-form-label">Tags</label>
+            <div class="col-sm-9">
+              <ng-select [items]="tagList" [(ngModel)]="tagIds" bindLabel="name" bindValue="id" [multiple]="true"
+                placeholder="Select tags..." [disabled]="pageType=='fullContent'">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <div class="col-sm-1">
+              <label for="authors">
+                Authors
+              </label>
+            </div>
+            <div class="col-sm-1 text-right">
+              <button (click)="addInput()" class="btn btn-ghost-secondary btn-add-input"
+                [disabled]="pageType=='fullContent'"><i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class="col-sm-10">
+              <div class="form-group row" *ngFor="let item of inputsArray; index as i">
+                <div class="col-sm-5">
+                  <input type="text" [(ngModel)]="authorNames[i]" placeholder="Author Name" class=" form-control"
+                    [disabled]="pageType=='fullContent'">
+                </div>
+                <div class="col-sm-5">
+                  <input [(ngModel)]="authorLinks[i]" type="text" class="form-control" placeholder="Author Link"
+                    [disabled]="pageType=='fullContent'">
+                </div>
+                <div class=" col-sm-1 text-right">
+                  <button (click)="removeInput(i)" class="btn btn-ghost-secondary btn-add-input"
+                    [disabled]="inputsArray.length ==1 || pageType=='fullContent'">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group row" *ngIf="pageType!='fullContent'">
+            <label for="imageUrl" class="col-sm-3 col-form-label ">Upload Image</label>
+            <div class="col-sm-9 override">
+              <p-fileUpload name="myfile[]" [showUploadButton]="showUpload" [showCancelButton]="showCancel"
+                styleClass="override imageInput" customUpload="true" (uploadHandler)="onUpload($event)" accept="image/*"
+                styleClass="prime-slider-override" (change)="onChangeImage()" [fileLimit]="1"
+                (onRemove)="removeFile($event)">
+                <ng-template pTemplate="content">
+                  <div class="row justify-content-center">
+                    <img *ngIf="imagePath!=null" [src]="imagePath" alt="img">
+                    <div *ngIf="imagePath!=null"><a class="ml-3 btn-add-input btn btn-secondary"
+                        (click)="removeFile()"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                  </div>
+                </ng-template>
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div *ngIf="pageType!='fullContent'" class="form-group row">
+            <label for="filesPdf" class="col-sm-3 col-form-label " *ngIf="pageType=='add'">
+              Upload Pdf Files
+            </label>
+            <label for="filesPdf" class="col-sm-3 col-form-label "
+              *ngIf="(pageType=='edit'|| pageType=='editToPublish') && uploadedPdfs.length==0">
+              Upload New Pdf Files
+            </label>
+            <label for="filesPdf" class="col-sm-3 col-form-label "
+              *ngIf="(pageType=='edit'|| pageType=='editToPublish')   && uploadedPdfs.length!=0">
+              Uploaded Pdf Files
+            </label>
+            <div class="col-sm-9 override" *ngIf="uploadedPdfs.length==0">
+              <p-fileUpload name="file[]" styleClass="override" [showUploadButton]="showUploadButton"
+                [showCancelButton]="showCancelButton" customUpload="true" (uploadHandler)="onUploadPdfs($event)"
+                accept=".pdf" multiple="multiple" (change)="onChange()" styleClass="prime-slider-override">
+              </p-fileUpload>
+            </div>
+            <div class="col-sm-9" *ngIf="uploadedPdfs.length!=0">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let file of uploadedPdfs">{{file.name}} </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="existingPdfs.length>0 && pageType!=='add' ">
+        <div class="col-sm-2">
+          <label for="filesPdf" class="col-form-label">Existing Files</label>
+        </div>
+        <div class="col-sm-10">
+          <div class="row">
+            <div *ngFor="let pdf of existingPdfs; index as f">
+              <a class="pdf-preview" (click)="openNewWindow(showPreviewPdf(pdf))">
+                <u> Document-{{f + 1}}.pdf</u>
+              </a>
+              <a class="btn btn-ghost-secondary btn-add-input" (click)="removeUploadedPdfFile(pdf)"
+                tooltipPosition="top" pTooltip="Remove file {{f + 1}}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+              <span *ngIf="f<existingPdfs.length-1"><b>|</b> &nbsp;&nbsp;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="control-section">
+            <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="description">
+            </ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

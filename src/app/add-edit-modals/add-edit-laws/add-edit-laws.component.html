@@ -1,0 +1,67 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Law</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Law</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <label for="title1" class="col-sm-3 col-form-label ">Title</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="title" class="form-control" id="title1" placeholder="Title *">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="code" class="col-sm-3 col-form-label ">Keyword</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="code" class="form-control" id="code" placeholder="Keyword *"
+          [disabled]="pageType == 'edit'">
+      </div>
+    </div>
+    <ng-container *ngIf="!isChapter">
+      <div class="form-group row">
+        <label for="category" class="col-sm-3 col-form-label">Catrgory</label>
+        <div class="col-sm-9">
+          <ng-select id="category" [items]="categoryList" [(ngModel)]="categoryId" bindLabel="fullPath" bindValue="id"
+            placeholder="Select category... *">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="section" class="col-sm-3 col-form-label " *ngIf="pageType=='add'">Section</label>
+        <label for="section" class="col-sm-3 col-form-label " *ngIf="pageType=='edit'">Add new sections</label>
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-sm-1">
+              <button (click)="addInput()" class="btn btn-ghost-secondary btn-add-input">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class="col-sm-11">
+              <div class="row mt-1" *ngFor="let item of inputsArray; index as i">
+                <div class="col-sm-10">
+                  <input id="section" placeholder="Section *" class="form-control" [(ngModel)]="sectionList[i]">
+                </div>
+                <div class="col-sm-2">
+                  <button (click)="removeInput(i)" class="btn btn-ghost-secondary btn-add-input"
+                    [disabled]="inputsArray.length ==1">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" (click)=" onSubmit()">Save</button>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

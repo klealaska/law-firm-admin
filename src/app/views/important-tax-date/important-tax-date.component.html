@@ -1,0 +1,52 @@
+<div class="animated fadeIn">
+  <tabset>
+    <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+      <p style="color: white"> Loading... </p>
+    </ngx-spinner>
+    <tab heading="Shqip (sq-AL)" (selectTab)="onTabChange(albanian)" [active]="activeTab==alTab">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" />
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="row justify-content-end pr-3 m-1">
+            <button class="btn btn-outline-success btn-icon btn-round" (click)="openModalToAddInAL()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <app-table (paginationEmitter)="onAlbanianTablePaginationValuesChange($event)"
+        [paginationModel]="albanianPaginationModel" [rows]="data | filter:filterQuery" [columns]="columns"
+        [translate]="true" [edit]="false" [edit_importantTaxDate]="true"
+        (actionClicked)="onActionClick($event, albanian)">
+      </app-table>
+    </tab>
+    <tab heading="English (en-US)" (selectTab)="onTabChange(english)" [active]="activeTab==enTab">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <br>
+      <app-table (paginationEmitter)="onEnglishTablePaginationValuesChange($event)"
+        [paginationModel]="englishPaginationModel" [rows]="data | filter:filterQuery" [columns]="columns"
+        [edit_importantTaxDate]="true" [edit]="false" (actionClicked)="onActionClick($event, english)">
+      </app-table>
+    </tab>
+  </tabset>
+</div>
+<app-add-edit-important-tax-date #editElement (submited)="refreshGrid()"></app-add-edit-important-tax-date>

@@ -1,0 +1,141 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card">
+        <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]=true
+          [fullScreen]="false">
+          <p style="color: white"> Loading... </p>
+        </ngx-spinner>
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <h4>{{firstName}} {{lastName}}</h4>
+          </div>
+          <div class="row justify-content-center">
+            <p class="text-muted">Edit your profile image</p>
+          </div>
+          <div class="row justify-content-center">
+            <div class="group-gap">
+              <div class="avatar-upload mb-2">
+                <div class="avatar-edit">
+                  <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                    (change)="uploadFile($event)" />
+                </div>
+                <ng-container *ngIf="imagePath==null">
+                  <div class="row justify-content-center mb-2">
+                    <ngx-avatar size="150" name="{{firstName}} {{lastName}}"></ngx-avatar>
+                  </div>
+                </ng-container>
+                <div *ngIf="imagePath!=null" class="avatar-preview">
+                  <div [style.backgroundImage]="'url('+ imagePath +')'">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center mb-2">
+            <button type="submit" class="btn btn-outline-primary col-lg-7 btn-block" (click)="fileInput.click()">Upload
+              Photo</button>
+            <button type="submit" class="btn btn-outline-primary col-lg-7 btn-block " (click)="uploadImage()">Save
+              Photo</button>
+          </div>
+
+          <div class="row justify-content-center">
+            <button type="submit" class="btn btn-outline-primary col-lg-7 btn-block" (click)="removeImage()">Remove
+              Photo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="card p-5" (keydown)="keyDownFunction($event)">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4>Change your profile data</h4>
+          </div>
+          <div class="col-lg-6 text-right">
+            <button class="btn btn-outline-success " (click)="onEditprofile()"> Save</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="firstName" class="col-form-label col-form-label" id="firstname"> Firstname</label>
+              <input type="text" id="firstName" [(ngModel)]="firstName" class="form-control" placeholder="Firsname *">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label for="lastName" class="col-form-label col-form-label" id="firstname"> Lastname</label>
+              <input type="text" id="lastName" [(ngModel)]="lastName" class="form-control" placeholder="Lastname *">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="email" class="col-form-label col-form-label">Email</label>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="email" class="form-control" id="email" placeholder="Email" disabled>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="userRoleIds" class="col-form-label col-form-label">Your Roles</label>
+            <div class="form-group">
+              <ng-select [items]="roles" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Roles... *"
+                [(ngModel)]="userRoleIds" autocomplete="false" disabled>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-2 text-left collapse-reset-password">
+            <button type="button" class="btn btn-outline-info" (click)="toggleCollapse()">Reset Password</button>
+          </div>
+          <div class="col-sm-10" [collapse]="isCollapsed">
+            <div class="row">
+              <div class="col-lg-4">
+                <label for="password" class="col-form-label col-form-label">Old Password</label>
+                <div class="form-group">
+                  <input type="password" [(ngModel)]="oldPassword" class="form-control" id="password"
+                    placeholder="Old Password">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label for="confirmPass" class="col-form-label col-form-label">New Password</label>
+                <div class="form-group">
+                  <input type="password" [(ngModel)]="password" class="form-control" id="confirmPass"
+                    placeholder="New Password">
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <label for="confirmPass" class="col-form-label col-form-label">Confirm Password</label>
+                <div class="form-group">
+                  <input type="password" [(ngModel)]="confirmPass" class="form-control" id="confirmPass"
+                    placeholder="Confirm Password">
+                </div>
+              </div>
+              <div class="col-sm-1 collapse-reset-password">
+                <button type="button" class="btn btn-outline-success" (click)="resetPassword()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+          <div class="col-lg-6">
+            <label for="password" class="col-form-label col-form-label">Change Password</label>
+            <div class="form-group">
+              <input type="password" [(ngModel)]="password" class="form-control" id="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="confirmPass" class="col-form-label col-form-label">Confirm Password</label>
+            <div class="form-group">
+              <input type="password" [(ngModel)]="confirmPass" class="form-control" id="confirmPass"
+                placeholder="Confirm Password">
+            </div>
+          </div>
+        </div> -->

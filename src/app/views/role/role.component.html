@@ -1,0 +1,32 @@
+<div class="animated fadeIn">
+  <div class="card m-4">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-4">
+          <b>User Roles</b>
+        </div>
+      </div>
+    </div>
+    <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+      <p style="color: white"> Loading... </p>
+    </ngx-spinner>
+    <app-edit-role-modal [pageType]="'edit'" (submited)="refreshGrid()" #editElement></app-edit-role-modal>
+    <div class="card-body">
+      <!-- <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" />
+          </div>
+        </div>
+      </div> -->
+      <br>
+      <app-table [rows]="data | filter:filterQuery" [columns]="columns" [delete]=false
+        (actionClicked)="onActionClick($event)" [role_data]="true">
+      </app-table>
+    </div>
+  </div>
+</div>

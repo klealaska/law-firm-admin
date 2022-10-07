@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-lg-3">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+      </div>
+      <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..." autocomplete="off" />
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-sm-1 text-center">
+    <label for="parent">Language</label>
+    <div class="btn-group" role="group">
+      <button type="button" [ngClass]="{'lang-btn' : language==albanian}" class="btn btn-outline-primary"
+        (click)="onLanguageSelect(albanian)">AL</button>
+      <button type="button" [ngClass]="{'lang-btn' : language==english}" class="btn btn-outline-primary"
+        (click)="onLanguageSelect(english)">EN</button>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <label for="parent">Law Group</label>
+    <ng-select id="parent" [items]="parentList" [(ngModel)]="parentId" bindLabel="name" bindValue="id"
+      placeholder="Select law group... *" (ngModelChange)="getLaws($event)">
+    </ng-select>
+  </div>
+  <div class="col-sm-3">
+    <label for="law">Law</label>
+    <ng-select id="law" [items]="lawList" [(ngModel)]="lawId" bindLabel="name" bindValue="id"
+      placeholder="Select law... *" (ngModelChange)="getChapters($event)">
+    </ng-select>
+    <div class="text-muted text-color"> <small>Tip: Choose a main category first*</small></div>
+  </div>
+  <div class="col-sm-3">
+    <label for="chapter">Chapter</label>
+    <ng-select id="chapter" [items]="chapterList" [(ngModel)]="chapterId" bindLabel="name" bindValue="id"
+      placeholder="Select chapter... *" (ngModelChange)="getSectionsExtentionForCombo($event)">
+    </ng-select>
+    <div class="text-muted text-color"> <small>Tip: Choose a law first*</small></div>
+  </div>
+</div>
+<br>
+
+<div class="row" *ngIf="amendmentList.length>0">
+  <div class="col-sm-12">
+    <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+      [rows]="amendmentList |  filter:filterQuery" [columns]="columns" (actionClicked)="onActionClick($event)"
+      [edit_lawAmendment]="true" [delete_lawAmendment]="true" [delete]="false" [edit]="false" [sendToApprove]="true"
+      (sentToApproval)="sendToApprove($event)">
+    </app-table>
+  </div>
+</div>
+
+<div class="row" *ngIf="!amendmentList || amendmentList.length==0">
+  <div class="col-sm-12 text-center">
+    <div class="shadow-sm p-3 mb-5 bg-white rounded">
+      <font size=3>No data found</font>
+    </div>
+  </div>
+</div>
+
+<app-add-edit-law-amendments #editElement></app-add-edit-law-amendments>

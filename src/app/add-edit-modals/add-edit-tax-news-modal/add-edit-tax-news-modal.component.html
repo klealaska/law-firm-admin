@@ -1,0 +1,126 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Tax News</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Tax News</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <label for="title" class="col-sm-3 col-form-label ">Title</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="title" class="form-control" id="title" placeholder="Title *">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="publishedDate" class="col-sm-3 col-form-label ">Published Date</label>
+      <div class="col-sm-9">
+        <input id="publishedDate" placeholder="Published Date *" class="form-control bsDatepicker" bsDatepicker
+          [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [(bsValue)]="publishedDate">
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="imagePath==null">
+      <label for="imageUrl" class="col-sm-3 col-form-label ">Upload Image</label>
+      <div class="col-sm-7 override">
+        <p-fileUpload name="myfile[]" styleClass="override" customUpload="true" (uploadHandler)="onUpload($event)"
+          accept="image/*" styleClass="prime-slider-override">
+          <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFile!=null">
+              <li class="upl">{{uploadedFile.name}} </li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="!!imagePath">
+      <label class="col-sm-3  col-form-label" for="uploaded">Uploaded Image</label>
+      <div class="col-sm-8">
+        <img class="img-thumbnail" id="uploaded" [src]="imagePath" alt="Uploaded Image">
+      </div>
+      <div class="col-sm-1">
+        <a class="btn btn-block btn-ghost-secondary" tooltipPosition="top" (click)="removeUploadedImage()"
+          pTooltip="Remove Image">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+        <!-- <a class="btn btn-block" (click)="removeUploadedImage()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a> -->
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="fileNameAL==null">
+      <label for="fileUploadAL" class="col-sm-3 col-form-label ">Upload Pdf File (sq-AL)</label>
+      <div class="col-sm-7">
+        <p-fileUpload name="myfile[]" styleClass="override " customUpload="true"
+          (uploadHandler)="uploadPdf($event, 'AL')" accept=".pdf" styleClass="prime-slider-override">
+          <ng-template pTemplate="content">
+            <ul *ngIf="filePdfAL!=null">
+              <li class="upl">{{filePdfAL.name}} </li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="!!fileNameAL">
+      <label for="fileUploadAL" class="col-sm-3 col-form-label ">Uploaded Pdf File (sq-AL)</label>
+      <div class="col-sm-5">
+        <a class="pdf-preview" (click)="openNewWindow(showPreviewPdf(fileNameAL))">
+          <u> Document-AL.pdf</u>
+        </a>
+      </div>
+      <div class="col-sm-4">
+        <a class="btn btn-block btn-ghost-secondary" (click)="removeUploadedPdfFile('AL')">
+          Remove (sq-AL)
+        </a>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="fileNameEN==null">
+      <label for="fileUploadEN" class="col-sm-3 col-form-label ">Upload Pdf File (en-US)</label>
+      <div class="col-sm-7">
+        <p-fileUpload name="myfile[]" styleClass="override" customUpload="true"
+          (uploadHandler)="uploadPdf($event, 'EN')" accept=".pdf" styleClass="prime-slider-override">
+          <ng-template pTemplate="content">
+            <ul *ngIf="filePdfEN!=null">
+              <li class="upl">{{filePdfEN.name}} </li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="!!fileNameEN">
+      <label for="fileUploadEN" class="col-sm-3 col-form-label ">Uploaded Pdf File (en-US)</label>
+      <div class="col-sm-5">
+        <a class="pdf-preview" (click)="openNewWindow(showPreviewPdf(fileNameEN))">
+          <u> Document-EN.pdf</u>
+        </a>
+      </div>
+      <div class="col-sm-4">
+        <a class="btn btn-block btn-ghost-secondary" (click)="removeUploadedPdfFile('EN')">
+          Remove (sq-EN)
+        </a>
+      </div>
+    </div>
+    <!-- <div class="form-group row">
+      <label for="" class="col-sm-3 col-form-label ">Choose Tax News Language</label>
+      <div class="col-sm-9">
+        <div class="row ml-1">
+          <div class="form-check">
+            <input class="form-check-input" id="al" type="radio" value="sq-AL" name="lang" [(ngModel)]="language">
+            <label class="form-check-label" for="al">Shqip</label>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="form-check">
+            <input class="form-check-input" id="en" type="radio" value="en-US" name="lang" [(ngModel)]="language">
+            <label class="form-check-label" for="en">English</label>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)=" onSubmit()">Save</button>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

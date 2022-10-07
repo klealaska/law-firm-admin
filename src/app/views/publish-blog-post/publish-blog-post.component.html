@@ -1,0 +1,45 @@
+<div class="animated fadeIn">
+  <tabset>
+    <tab heading="Pending Approval" (selectTab)="onTabSelect(approvalTab)" [active]="activeTab==approvalTab">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+                autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-lg-9">
+          </div>
+        </div>
+        <br>
+        <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+          [rows]="data | filter:filterQuery" [columns]="columns" (actionClicked)="onActionClick($event )"
+          [publish]="true" [delete]="false" (actionPublished)="publish($event)">
+        </app-table>
+      </div>
+    </tab>
+    <tab heading="Deletion Approval" (selectTab)="onTabSelect(deletionTab)" [active]="activeTab==deletionTab">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <br>
+      <app-table (paginationEmitter)="onDeletionTablePaginationValuesChange($event)"
+        [paginationModel]="deletionTablePaginationModel" [rows]="deletionData |filter:filterQuery" [columns]="columns"
+        [edit]="false" [fullContent]="true" (actionClicked)="onActionClick($event)">
+      </app-table>
+    </tab>
+  </tabset>
+</div>
+<app-add-edit-blog-post #editElement (submited)="setStateOnInit()"></app-add-edit-blog-post>

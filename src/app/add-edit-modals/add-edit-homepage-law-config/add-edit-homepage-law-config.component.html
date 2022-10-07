@@ -1,0 +1,110 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Homepage Configuration</h5>
+    <h5 *ngIf="pageType=='translate'" class="modal-title pull-left">
+      Translate Homepage Configuration ({{language}})
+    </h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Homepage Configuration</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+    <p style="color: white"> Loading... </p>
+  </ngx-spinner>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group row">
+          <label for="name" class="col-sm-3 col-form-label ">Name</label>
+          <div class="col-sm-9">
+            <ng-select id="name" [items]="nameList" [(ngModel)]="name" bindLabel="name" bindValue="id"
+              placeholder="Select name... *" [disabled]="pageType=='edit'">
+            </ng-select>
+          </div>
+        </div>
+        <hr>
+        <div class="form-group row">
+          <label for="title" class="col-sm-3 col-form-label ">Title</label>
+          <div class="col-sm-9">
+            <input type="text" [(ngModel)]="title" class="form-control" id="title" placeholder="Title *">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="description" class="col-sm-3 col-form-label ">Description</label>
+          <div class="col-sm-9">
+            <textarea type="text" [(ngModel)]="description" id="description" class="form-control"
+              placeholder="Description *">
+                    </textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="link" class="col-sm-3 col-form-label ">Link</label>
+          <div class="col-sm-9">
+            <input type="text" [(ngModel)]="link" id="link" class="form-control" placeholder="Link *">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="color" class="col-sm-3 col-form-label ">Color Overlay</label>
+          <div class="col-sm-9">
+            <ng-select id="color" [items]="colorList" [(ngModel)]="color" bindLabel="name" bindValue="name"
+              placeholder="Select color... *">
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="imageUrl" class="col-sm-3 col-form-label">Upload Image</label>
+          <div class="col-sm-9">
+            <p-fileUpload name="myfile[]" [showCancelButton]="false" styleClass="override imageInput"
+              [disabled]="pageType=='translate'" customUpload="true" (uploadHandler)="uploadImage($event)"
+              accept="image/*" styleClass="prime-slider-override" [fileLimit]="1">
+              <ng-template pTemplate="content">
+                <div *ngIf="imagePath!=null">
+                  <div class="row justify-content-center">
+                    <span *ngIf="uploadImg.name!=null" for="ImgName">{{uploadImg.name}}
+                    </span>
+                  </div>
+                  <div class="row justify-content-center">
+                    <img *ngIf="imagePath!=null" [src]="imagePath" style="height: 20vh; width: auto; object-fit: cover;"
+                      alt="image">
+                    <div *ngIf="imagePath!=null && pageType!='translate'"><a
+                        class="ml-3 btn-add-input btn btn-secondary" (click)="removeFile()"><i class="fa fa-times"
+                          aria-hidden="true"></i></a></div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="pageType!='edit'">
+          <label for="lang" class="col-sm-3 col-form-label">Language</label>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="form-check  ml-3">
+                <input class="form-check-input" id="al" type="radio" value="sq-AL" name="lang" [(ngModel)]="language"
+                  checked>
+                <label class="form-check-label" for="al">Shqip</label>
+              </div>
+              <div class="form-check ml-3">
+                <input class="form-check-input" id="en" type="radio" value="en-US" name="lang" [(ngModel)]="language">
+                <label class="form-check-label" for="en">English</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="isVisible" class="col-sm-3 col-form-label">Show at Homepage</label>
+          <div class="col-sm-9 text-left">
+            <label class="switch switch-pill switch-success">
+              <input type="checkbox" class="switch-input" [checked]="isVisible" (change)="switchEvent($event)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)=" onSubmit()">Save</button>
+  </div>
+</ng-template>

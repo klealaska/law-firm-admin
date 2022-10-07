@@ -1,0 +1,99 @@
+<ng-template #template>
+    <div class="modal-header">
+        <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Law Article Version</h5>
+        <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Law Article Version</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <span>Law Version Details</span>
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-group row">
+                <label for="versionDate" class="col-sm-3 col-form-label ">Version Date</label>
+                <div class="col-sm-9">
+                    <input id="versionDate" placeholder="Version Date *" class="form-control bsDatepicker" bsDatepicker
+                        [bsConfig]="{dateInputFormat:'MMM Do YYYY'}" [(bsValue)]="versionDate">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="lawNumber" class="col-sm-3 col-form-label col-form-label">Number</label>
+                <div class="col-sm-9">
+                    <input type="text" id="lawNumber" [(ngModel)]="lawNumber" class="form-control"
+                        placeholder="Law number *" aria-label="LawNumber" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lawName" class="col-sm-3 col-form-label col-form-label">Title</label>
+                <div class="col-sm-9">
+                    <input type="text" id="lawName" [(ngModel)]="lawName" class="form-control" placeholder="Law name  *"
+                        aria-label="lawName" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lawUrl" class="col-sm-3 col-form-label col-form-label">Url</label>
+                <div class="col-sm-9">
+                    <input type="text" id="lawUrl" [(ngModel)]="lawUrl" class="form-control" placeholder="Law url *"
+                        aria-label="lawUrl" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <span class="mr-3">
+                        Section Version Details
+                    </span>
+                    <span>
+                        <button (click)="addInput()" pTooltip="Add Form" class="btn btn-outline-primary ">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button (click)="removeInput()" class="btn btn-outline-secondary ml-2"
+                            [disabled]="inputsArray.length == inputsArrayElements">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <ng-container *ngFor="let item of inputsArray; index as i">
+                <div class="section-details mb-2">
+                    <ng-container *ngIf="pageType == 'edit'">
+                        <div class="row justify-content-end mr-1">
+                            <button type="button" pTooltip="Delete" tooltipPosition="top"
+                                class="btn btn-icon btn-outline-danger" (click)="onVersionDetailsDelete(item.id)"><i
+                                    class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </ng-container>
+                    <div class="form-group row">
+                        <label for="sectionDescription"
+                            class="col-sm-3 col-form-label col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="{{ 'sectionDescription' + i }}"
+                                [(ngModel)]="sectionDescriptionList[i]" class="form-control" placeholder="Description *"
+                                aria-label="Url" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sectionUrl" class="col-sm-3 col-form-label col-form-label">Url</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="{{ 'sectionUrl' + i }}" [(ngModel)]="sectionUrlList[i]"
+                                class="form-control" placeholder="Url *" aria-label="Url"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="onSubmit()" [disabled]="isSubmitted">Save</button>
+    </div>
+</ng-template>

@@ -1,0 +1,90 @@
+<ng-template #template>
+  <div class="modal-header">
+    <!-- <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Law Amendment</h5> -->
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Law Amendment</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="law" class=" col-form-label ">Select law for amendment</label>
+            <ng-select id="law" [items]="articleList" [(ngModel)]="articleId" bindLabel="title" bindValue="id"
+              placeholder="Select law... *" (ngModelChange)="getChaptersOnLawChange($event)"
+              [disabled]="momentOfEdit=='InEdit'">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="chapter" class="col-form-label">Select section to edit</label>
+            <ng-select id="chapter" [items]="chapterList" [(ngModel)]="chapterId" bindLabel="title" bindValue="id"
+              placeholder="Select section... *" [disabled]="momentOfEdit=='InEdit'">
+            </ng-select>
+            <div class="text-muted text-color"> <small>Tip: Choose a law first*</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-outline-success upload-btn" (click)="getDataToUpdate()"
+          [disabled]="momentOfEdit=='InEdit'">Upload
+          Data</button>
+      </div>
+    </div> -->
+    <ng-container>
+      <!--*ngIf="chapterData!=null || momentOfEdit=='InEdit'" -->
+      <hr>
+      <div class="form-group row">
+        <label for="title1" class="col-sm-2 col-form-label ">Title</label>
+        <div class="col-sm-10">
+          <input type="text" [(ngModel)]="title" class="form-control" id="title1" placeholder="Title *">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="code" class="col-sm-2 col-form-label ">Keyword</label>
+        <div class="col-sm-10">
+          <input type="text" [(ngModel)]="code" class="form-control" id="code" placeholder="Keyword *"
+            [disabled]="pageType == 'edit'">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="category" class="col-sm-2 col-form-label ">Chapter</label>
+        <div class="col-sm-10">
+          <input type="text" [(ngModel)]="categoryName" class="form-control" id="category" placeholder="Category *"
+            disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+        <div class="col-sm-10">
+          <ng-select [items]="tagList" [(ngModel)]="tagIds" bindLabel="name" bindValue="id" [multiple]="true"
+            placeholder="Select tags...">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="content" class="col-sm-2 col-form-label ">Content</label>
+        <div class="col-sm-10">
+          <div class="control-section">
+            <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="content">
+            </ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col text-right">
+          <button class="btn btn-outline-success m-1 save-law-btn" (click)="onSubmit()"
+            [disabled]="isSubmitted">Save</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

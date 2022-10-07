@@ -1,0 +1,34 @@
+::ng-deep .ck.ck-editor__editable_inline > :last-child {
+  height: 100%;
+  min-height: 40vh;
+  margin-bottom: 7px;
+}
+
+.card {
+  min-height: 70vh;
+}
+
+.btn-size {
+  width: 10rem;
+}
+
+.display-diff {
+  border: 1px #c4c4c4 solid;
+  height: 76%;
+}
+
+::ng-deep ins {
+  background-color: rgb(126, 216, 165);
+}
+
+::ng-deep del {
+  background-color: rgb(231, 146, 146);
+}
+
+::ng-deep ins * {
+  background-color: rgb(126, 216, 165);
+}
+
+::ng-deep del * {
+  background-color: rgb(231, 146, 146);
+}

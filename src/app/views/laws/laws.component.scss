@@ -1,0 +1,38 @@
+tab {
+  min-height: 70vh;
+  max-height: inherit;
+}
+
+.font {
+  color: #003366;
+}
+
+.text-color {
+  color: #b7b7b7 !important;
+}
+
+.switch {
+  margin-top: 32px !important;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.slider {
+  background-color: #ccc;
+}
+
+.switch-label .switch-slider::after {
+  color: black;
+}
+
+.lang-btn {
+  background-color: #003478 !important;
+  border-color: #003478 !important;
+  color: white !important;
+}

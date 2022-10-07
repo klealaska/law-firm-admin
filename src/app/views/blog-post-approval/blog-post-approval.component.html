@@ -1,0 +1,26 @@
+<div class="card-body">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..." autocomplete="off" />
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="row justify-content-end pr-3 m-1">
+        <button class="btn btn-outline-success btn-icon btn-round" (click)="openModal()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <br>
+  <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+    [rows]="data | filter:filterQuery" [columns]="columns" [sendForApproval]="true" [delete]="false" [edit]="false"
+    [editItemsForApproval]="true" [deleteItemsForApproval]="true" (actionClicked)="onActionClick($event)">
+  </app-table>
+</div>
+<app-add-edit-blog-post #editElement>
+</app-add-edit-blog-post>

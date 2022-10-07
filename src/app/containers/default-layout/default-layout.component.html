@@ -1,0 +1,76 @@
+<app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/Mazars_Logo.jpg', width:'auto' , height: 20, alt: 'Mazars Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/MazarsLogo2.jpg', width: 'auto', height: 10, alt: 'Mazars Logo'}"
+  [sidebarToggler]="'lg'" [asideMenuToggler]=false>
+  <ul class="nav navbar-nav d-md-down-none ml-auto mr-4">
+    <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
+        <i class="icon-bell"></i><span class="badge badge-pill badge-warning"
+          *ngIf="notificationList.length>0">{{notificationList.length}}</span>
+      </a>
+      <div class="notification-dropdown-size  dropdown-menu dropdown-menu-right dropdown-menu-lg" *dropdownMenu
+        aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>You have {{notificationList.length}} notifications</strong>
+        </div>
+        <a class="dropdown-item text-truncate" *ngFor="let notification of notificationList"
+          (click)="onNotificationClick(notification.link, $event)">
+          {{notification.title}}
+        </a>
+      </div>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
+        <ngx-avatar *ngIf="imagePath==null" size="35" name="{{userFirstName}} {{userLastName}}"></ngx-avatar>
+        <img *ngIf="imagePath!=null" [src]="imagePath" class="image-profile" alt="profile image" />
+      </a>
+      <!-- <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>Account</strong></div>
+        <a class="dropdown-item" routerLink="/userProfile"><i class="fa fa-user"
+            routerLinkActive="router-link-active"></i> Profile</a>
+        <a class="dropdown-item" (click)="onLogOut(false)"><i class="fa fa-sign-out"></i> Logout</a>
+      </div> -->
+    </li>
+
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link btn-outline-light p-2" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false" dropdownToggle>
+        {{userFirstName}} {{userLastName}}
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>Account</strong></div>
+        <a class="dropdown-item" routerLink="/userProfile"><i class="fa fa-user"
+            routerLinkActive="router-link-active"></i> Profile</a>
+        <a class="dropdown-item" (click)="onLogOut(false)"><i class="fa fa-sign-out"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="logo-colors">
+  <div class="red-line"></div>
+  <div class="white-line"></div>
+  <div class="yellow-line"></div>
+  <div class="white-line"></div>
+  <div class="blue-line"></div>
+</div>
+<div class="app-body">
+  <app-sidebar [fixed]="true" [display]="'lg'">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <cui-breadcrumb></cui-breadcrumb>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+  <!-- <app-aside [fixed]="true" [display]="false">
+
+  </app-aside> -->
+</div>
+<!-- <app-footer>
+  <span>&copy; 2020 Mazars AL</span>
+</app-footer> -->

@@ -1,0 +1,74 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Notification Group</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Notification Group</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <label for="name" class="col-sm-3 col-form-label ">Name</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="name" class="form-control" id="name" placeholder="Name *">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="title" class="col-sm-3 col-form-label ">Title</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="title" class="form-control" id="title" placeholder="Title *">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-3 col-form-label ">Description</label>
+      <div class="col-sm-9">
+        <textarea type="text" id="description" [(ngModel)]="description" class="form-control"
+          placeholder="Description *">
+                </textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="publishedDate" class="col-sm-3 col-form-label ">Release Date</label>
+      <div class="col-sm-9">
+        <input id="publishedDate" placeholder="Release Date *" class="form-control bsDatepicker" bsDatepicker
+          [minDate]="today" [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [value]="dateOfRelease">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="link" class="col-sm-3 col-form-label ">Link</label>
+      <div class="col-sm-9">
+        <input type="text" id="link" [(ngModel)]="link" class="form-control" placeholder="Link ">
+      </div>
+    </div>
+    <div *ngIf="pageType=='add'" class="form-group row">
+      <label for="notificationType" class="col-sm-3 col-form-label ">Notification Type</label>
+      <div class="col-sm-9">
+        <ng-select id="notificationType" [items]="notificationTypeList" [(ngModel)]="notificationType" bindLabel="name"
+          bindValue="id" placeholder="Select type... *">
+        </ng-select>
+      </div>
+    </div>
+    <div *ngIf="pageType=='edit'" class="form-group row">
+      <label for="notificationType" class="col-sm-3 col-form-label ">Notification Type</label>
+      <div class="col-sm-9">
+        <ng-select id="notificationType" [items]="notificationTypeList" [(ngModel)]="notificationType" bindLabel="name"
+          bindValue="id" placeholder="Select type... *" disabled>
+        </ng-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="roles" class="col-sm-3 col-form-label ">User Roles</label>
+      <div class="col-sm-9">
+        <ng-select id="roles" [items]="roleList" [(ngModel)]="userRoles" bindLabel="name" bindValue="name"
+          [multiple]="true" placeholder="Select roles... *">
+        </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)=" onSubmit()">Save</button>
+  </div>
+</ng-template>
+<!-- <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner> -->

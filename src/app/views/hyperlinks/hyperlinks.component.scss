@@ -1,0 +1,17 @@
+.card-body {
+    padding-bottom: 20px;
+}
+
+.card {
+    min-height: 70vh;
+}
+
+::ng-deep tab {
+    min-height: 70vh;
+}
+
+.lang-btn {
+    background-color: #003478 !important;
+    border-color: #003478 !important;
+    color: white !important;
+}

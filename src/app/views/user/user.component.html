@@ -1,0 +1,62 @@
+<div class="animated fadeIn">
+  <!-- Nav tabs -->
+  <tabset>
+    <tab heading="System Users" (selectTab)="onTabSelect(sysUsersTab)">
+      <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+        <p style="color: white"> Loading... </p>
+      </ngx-spinner>
+      <div class="row">
+        <div class="col-lg-5 col-md-8 col-sm-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary" style="cursor: pointer;" (click)="search()">
+                <i class="fa fa-search"></i>
+              </span>
+              <span class="input-group-text text-primary">
+                <ng-select [items]="dataList" bindLabel="name" [(ngModel)]="filterColumn" bindValue="code"
+                  placeholder="Select column..." (ngModelChange)="getFilterColumn($event)">
+                </ng-select>
+              </span>
+            </div>
+            <input type="text" id="search-input" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" (keydown)="searchOnEnter($event)" />
+          </div>
+        </div>
+        <div class="col-lg-7 col-md-4 col-sm-6">
+          <div class="row justify-content-end pr-3 m-1">
+            <button class="btn btn-outline-success btn-icon btn-round" (click)="openModal()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <app-table (paginationEmitter)="onSystemTablePaginationValuesChange($event)"
+        [paginationModel]="systemTablePaginationModel" [rows]="sysUserData" [columns]="columnsSysUsers" [delete]=false
+        [edit]=false [edit_user]=true (actionClicked)="onActionClick($event)" (isActive)="userStatusEvent($event)">
+      </app-table>
+    </tab>
+    <tab heading="Registered Users" (selectTab)="onTabSelect(clientUsersTab)">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+              autocomplete="off" />
+          </div>
+        </div>
+        <div class="col-lg-9">
+        </div>
+      </div>
+      <br>
+      <app-table (paginationEmitter)="onPaginationValuesChange($event)" [paginationModel]="paginationModel"
+        [rows]="userData | filter:filterQuery" [columns]="columnsRegisteredUsers" [delete]=false
+        (actionClicked)="onActionClick($event)" (isActive)="userStatusEvent($event)">
+      </app-table>
+    </tab>
+  </tabset>
+</div>
+<app-add-edit-user-modal (submited)="refreshGrid()" #editElement>
+</app-add-edit-user-modal>

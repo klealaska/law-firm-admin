@@ -1,0 +1,75 @@
+.card {
+  min-height: 70vh;
+}
+
+.font {
+  color: #003366;
+}
+
+thead {
+  margin: 2 0 0 2;
+}
+
+input {
+  width: inherit;
+}
+
+.table td,
+.table th {
+  padding: 0 10px 0 10px;
+}
+
+.btn-outline-success {
+  color: green;
+  border-color: green;
+}
+
+.btn.btn-outline-success:active {
+  background-color: unset;
+}
+
+.btn-outline-success:hover {
+  border-color: green;
+  background-color: unset;
+}
+
+.btn.btn-outline-secondary:active {
+  background-color: unset;
+}
+
+.btn-outline-secondary:hover {
+  background-color: unset;
+}
+
+span:focus {
+  // padding: 1px 10px 0 10px;
+  outline-width: 0;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.slider {
+  background-color: #ccc;
+}
+
+.switch-label .switch-slider::after {
+  color: black;
+}
+
+.lang-btn {
+  background-color: #003478 !important;
+  border-color: #003478 !important;
+  color: white !important;
+}
+
+.btn-group {
+  height: 35px;
+  margin: 3px 3px 0 0;
+  width: auto;
+}

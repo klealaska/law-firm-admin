@@ -1,0 +1,103 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles with default layout.
+// If you are going to use dark layout please comment next line
+@import "~@coreui/coreui-pro/scss/coreui";
+
+// Import styles with dark layout
+// If you want to use dark layout uncomment next line
+//@import "~@coreui/coreui-pro/scss/themes/dark/coreui-dark";
+
+// If you want to add something do it here
+@import "custom";
+
+// Spinkit
+$spinkit-spinner-color: $body-color;
+@import "~spinkit/scss/spinkit.scss";
+
+// ng-select bootstrap
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import "../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
+
+@font-face {
+  font-family: "Din";
+  src: url("/assets/fonts/Din Regular.otf");
+}
+
+@font-face {
+  font-family: "Din Bold";
+  src: url("/assets/fonts/DINNextLTPro-Bold.otf");
+}
+@font-face {
+  font-family: "Din Pro";
+  src: url("/assets/fonts/DINNextLTPro-Regular.otf");
+}
+
+body {
+  font-family: "Din Pro";
+}
+
+b {
+  font-family: "Din Bold";
+}
+
+// datepicker-theme-color
+.theme-green .bs-datepicker-head {
+  background-color: $base-blue;
+}
+
+.theme-green .bs-datepicker-body table td span.selected {
+  background-color: $base-blue;
+}
+
+.theme-green .bs-datepicker-body table td.week span {
+  color: #003366;
+}
+
+.bs-datepicker-body table td {
+  color: #2f353a;
+}
+
+body .pi {
+  font-size: 0.9em !important;
+}
+
+// edit important tax date accordion
+body .ui-accordion .ui-accordion-header a {
+  background-color: #f6faff !important;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
+  border: 1px solid #014181;
+  background-color: #014181 !important;
+  color: #ffffff;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  border: 1px solid #003366;
+  background-color: #003366 !important;
+  color: #ffffff;
+}
+
+// primeng upload file input
+.ui-fileupload .ui-fileupload-buttonbar {
+  .ui-button {
+    background-color: #4f7ab0 !important;
+    border: 1px solid #4f7ab0;
+  }
+}
+
+.ui-fileupload .ui-fileupload-content {
+  .ui-button {
+    background-color: #4f7ab0 !important;
+    border: 1px solid #4f7ab0;
+  }
+}
+
+.nav-item.white > a i {
+  color: #97c7d6 !important;
+}

@@ -1,0 +1,85 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-4">
+          <b>Law Article History</b>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" />
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="row justify-content-end pr-3 m-1">
+            <div class="btn-group" role="group">
+              <button type="button" [ngClass]="{'lang-btn' : language==albanian}" class="btn btn-outline-primary"
+                (click)="onLanguageSelect(albanian)">AL</button>
+              <button type="button" [ngClass]="{'lang-btn' : language==english}" class="btn btn-outline-primary"
+                (click)="onLanguageSelect(english)">EN</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="parent">Law Group</label>
+          <ng-select id="parent" [items]="lawGroupList" [(ngModel)]="lawgroupId" bindLabel="name" bindValue="id"
+            placeholder="Select law group... *" (ngModelChange)="getLaws($event)">
+          </ng-select>
+        </div>
+        <div class="col-sm-3">
+          <label for="law">Law</label>
+          <ng-select id="law" [items]="lawList" [(ngModel)]="lawId" bindLabel="name" bindValue="id"
+            placeholder="Select law... *" (ngModelChange)="getChapters($event)">
+          </ng-select>
+          <div class="text-muted text-color"> <small>Tip: Choose a main category first*</small></div>
+        </div>
+        <div class="col-sm-3">
+          <label for="chapter">Chapter</label>
+          <ng-select id="chapter" [items]="chapterList" [(ngModel)]="chapterId" bindLabel="name" bindValue="id"
+            placeholder="Select chapter... *" (ngModelChange)="getSections($event)">
+          </ng-select>
+          <div class="text-muted text-color"> <small>Tip: Choose a law first*</small></div>
+        </div>
+        <div class="col-sm-3">
+          <label for="chapter">Section</label>
+          <ng-select id="section" [items]="sectionList" [(ngModel)]="sectionId" bindLabel="title" bindValue="id"
+            placeholder="Select section... *" (ngModelChange)="getArticleHistoryPerSection($event)">
+          </ng-select>
+          <div class="text-muted text-color">
+            <small>Tip: Choose a chapter first*</small>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="row" *ngIf="!data || data.length==0">
+        <div class="col-sm-12 text-center">
+          <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <font size=3>No data found</font>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="data.length>0">
+        <div class="col-sm-12">
+          <app-table [rows]="data | filter:filterQuery" [columns]="columns" [delete]="false" [edit]="false"
+            [fullContent]="true" (paginationEmitter)="onPaginationValuesChange($event)"
+            [paginationModel]="paginationModel" (actionClicked)="onActionClick($event)">
+          </app-table>
+        </div>
+      </div>
+    </div>
+
+    <app-add-edit-law-article-history #sectionModal></app-add-edit-law-article-history>
+  </div>
+</div>

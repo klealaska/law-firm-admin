@@ -1,0 +1,45 @@
+.form-control {
+  color: black;
+}
+
+::ng-deep .ck.ck-editor__editable_inline > :last-child {
+  height: 100%;
+  min-height: 40vh;
+}
+
+::ng-deep .ck.ck-toolbar.ck-toolbar_grouping > .ck-toolbar__items {
+  height: 20%;
+}
+
+img {
+  max-width: 16vw;
+  max-height: 19vh;
+  object-fit: cover;
+}
+
+.pdf-preview {
+  color: #003478 !important;
+  cursor: pointer;
+}
+
+.pdf-preview:hover {
+  color: #436ea5;
+  cursor: pointer;
+}
+
+.btn-add-input {
+  border-radius: 50%;
+  color: #003366;
+}
+
+.override {
+  font-size: 8px !important;
+}
+
+.prime-slider-override {
+  font-size: 8px !important;
+}
+
+.upl {
+  list-style-type: none;
+}

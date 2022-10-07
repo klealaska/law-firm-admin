@@ -1,0 +1,25 @@
+.switch {
+  margin-top: 32px;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.slider {
+  background-color: #ccc;
+}
+
+.switch-label .switch-slider::after {
+  color: black;
+}
+
+.lang-btn {
+  background-color: #003478 !important;
+  border-color: #003478 !important;
+  color: white !important;
+}

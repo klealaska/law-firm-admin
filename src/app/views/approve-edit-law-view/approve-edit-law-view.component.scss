@@ -1,0 +1,42 @@
+::ng-deep .ck.ck-editor__editable_inline > :last-child {
+  height: 100%;
+  min-height: 40vh;
+}
+
+.save-law-btn {
+  width: 7rem;
+}
+
+::ng-deep ins {
+  background-color: rgb(126, 216, 165);
+}
+
+::ng-deep del {
+  background-color: rgb(231, 146, 146);
+}
+
+::ng-deep ins * {
+  background-color: rgb(126, 216, 165);
+}
+
+::ng-deep del * {
+  background-color: rgb(231, 146, 146);
+}
+
+.display-diff {
+  border: 1px #c4c4c4 solid;
+  height: 76%;
+}
+
+.card {
+  min-height: 70vh;
+}
+
+
+button.btn.btn-outline-primary.ng-star-inserted {
+  margin-right: 6px;
+}
+
+button.btn.btn-outline-dark.save-law-btn {
+  margin-right: 6px;
+}

@@ -1,0 +1,170 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h5 *ngIf="pageType=='add'" class="modal-title pull-left">Add Important Tax Date ({{language}})</h5>
+    <h5 *ngIf="pageType=='translate'" class="modal-title pull-left">Translate Important Tax Date ({{language}})</h5>
+    <h5 *ngIf="pageType=='edit'" class="modal-title pull-left">Edit Important Tax Date ({{language}})</h5>
+    <button type="button" class="close pull-right btn" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman">
+    <p style="color: white"> Loading... </p>
+  </ngx-spinner>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <font size=3>Important Tax Date Event</font>
+    </div>
+    <hr>
+    <div class="form-group row">
+      <label for="title1" class="col-sm-3 col-form-label ">Title</label>
+      <div class="col-sm-9">
+        <input type="text" [(ngModel)]="title" class="form-control" id="title1" placeholder="Title *">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description1" class="col-sm-3 col-form-label ">Description</label>
+      <div class="col-sm-9">
+        <textarea type="text" id="description1" [(ngModel)]="description" class="form-control"
+          placeholder="Description *">
+                </textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="eventDate" class="col-sm-3 col-form-label ">Event Date</label>
+      <div class="col-sm-9">
+        <input id="eventDate" placeholder="Event Date *" class="form-control bsDatepicker" bsDatepicker
+          [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [(bsValue)]="eventDate">
+      </div>
+    </div>
+    <div class="row" *ngIf="pageType=='edit'">
+      <div class="col-sm-12 text-right">
+        <button class="btn btn-outline-success" (click)=" update()">Save</button>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row justify-content-center">
+      <font size=3>Notification Group Event</font>
+    </div>
+    <hr>
+
+    <!-- add-notifications -->
+    <ng-container *ngIf="pageType=='add' || pageType=='translate'">
+      <div class="form-group row">
+        <label for="name" class="col-sm-3 col-form-label ">Notification Name</label>
+        <div class="col-sm-9">
+          <input type="text" [(ngModel)]="name" class="form-control" id="name" placeholder="Name *">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="title" class="col-sm-3 col-form-label ">Notification Title</label>
+        <div class="col-sm-9">
+          <input type="text" [(ngModel)]="title" class="form-control" id="title" placeholder="Notification Title *"
+            disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-3 col-form-label ">Notification Description</label>
+        <div class="col-sm-9">
+          <textarea type="text" id="description" [(ngModel)]="description" class="form-control"
+            placeholder=" Description *" disabled>
+                </textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="link" class="col-sm-3 col-form-label ">Notification Link</label>
+        <div class="col-sm-9">
+          <input type="text" id="link" [(ngModel)]="notificationLink" class="form-control" placeholder="Link ">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="releaseDate" class="col-sm-3 col-form-label ">Release Dates</label>
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-sm-1">
+              <button (click)="addInput()" class="btn btn-ghost-secondary btn-add-input"
+                [disabled]="inputsArray.length >=3">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class="col-sm-11">
+              <div class="row mt-1" *ngFor="let item of inputsArray; index as i">
+                <div class="col-sm-10">
+                  <input id="releaseDate" placeholder="Release Date *" class="form-control bsDatepicker" bsDatepicker
+                    [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [(bsValue)]="releaseDates[i]" [minDate]="today"
+                    [placement]="'top'">
+                </div>
+                <div class="col-sm-2">
+                  <button (click)="removeInput(i)" class="btn btn-ghost-secondary btn-add-input"
+                    [disabled]="inputsArray.length ==1 || pageType=='edit'">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- add notification -end -->
+
+    <!-- edit notification -->
+    <ng-container *ngIf="pageType=='edit'">
+      <p-accordion>
+        <ng-container *ngFor="let item of  notifications; index as i">
+          <p-accordionTab header="Notification Group {{i + 1}}">
+            <div class="form-group row">
+              <label for="name" class="col-sm-3 col-form-label ">Notification Name</label>
+              <div class="col-sm-9">
+                <input type="text" [(ngModel)]="item.name" [value]="item.name" class="form-control" id="name"
+                  placeholder="Name *">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="title" class="col-sm-3 col-form-label ">Notification Title</label>
+              <div class="col-sm-9">
+                <input type="text" [(ngModel)]="title" class="form-control" id="title"
+                  placeholder="Notification Title *" disabled>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="description" class="col-sm-3 col-form-label ">Notification Description</label>
+              <div class="col-sm-9">
+                <textarea type="text" id="description" [(ngModel)]="description" class="form-control"
+                  placeholder=" Description *" disabled>
+                            </textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="link" class="col-sm-3 col-form-label ">Notification Link</label>
+              <div class="col-sm-9">
+                <input type="text" id="link" [(ngModel)]="item.link" class="form-control" placeholder="Link ">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="releaseDate" class="col-sm-3 col-form-label ">Release Date</label>
+              <div class="col-sm-9">
+                <input id="releaseDate" placeholder="Release Date *" class="form-control bsDatepicker"
+                  [(bsValue)]="item.dateOfRelease" bsDatepicker [disabled]="item.isReleased"
+                  [bsConfig]="{dateInputFormat:'DD/MM/YYYY'}" [minDate]="today" [placement]="'top'">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 text-right">
+                <button class="btn btn-outline-success" (click)=" updateNotificationGroup(i)"
+                  [disabled]="item.isReleased">Save</button>
+              </div>
+            </div>
+          </p-accordionTab>
+        </ng-container>
+      </p-accordion>
+    </ng-container>
+    <!-- edit notification end-->
+  </div>
+  <div class="modal-footer" *ngIf="pageType=='add'">
+    <button class="btn btn-outline-success" [disabled]="isSubmitted" (click)=" addImportantTaxNews()">Save</button>
+  </div>
+  <div class="modal-footer" *ngIf="pageType=='translate'">
+    <button class="btn btn-outline-success" (click)=" addTranslation()" [disabled]="isSubmitted">Save</button>
+  </div>
+</ng-template>

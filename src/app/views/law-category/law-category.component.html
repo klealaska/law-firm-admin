@@ -1,0 +1,136 @@
+<div class="animated fadeIn">
+  <tabset>
+    <ngx-spinner bdColor="rgba(172, 179, 191,1)" size="medium" color="#fff" type="pacman" [fullScreen]="false">
+      <p style="color: white"> Loading... </p>
+    </ngx-spinner>
+    <tab heading="Shqip (sq-AL)" (selectTab)="onTabEvent(albanian)">
+      <div *ngIf="parentName.length>0" class="row m-3 card-header">
+        <div class="col-lg-12">
+          <b>{{parentName}} <span *ngIf="lawName.length>0">/</span>{{lawName}}</b>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+                autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row justify-content-end pr-3">
+              <div class="btn-group mt-1 mr-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-outline-info law-type-selected"
+                  (click)="addLawCategory(lawGroup)">Add
+                  Group</button>
+                <button type="button" class="btn btn-outline-info law-type-selected" (click)="addLawCategory(law)">Add
+                  Law</button>
+                <button type="button" class="btn btn-outline-info law-type-selected"
+                  (click)="addLawCategory(chapter)">Add
+                  Chapter</button>
+              </div>
+              <button class="btn btn-outline-primary btn-icon btn-round" (click)="getMainCategories()">
+                <i class="fa fa-refresh"></i>
+              </button>
+              <button class="btn btn-outline-primary btn-icon btn-round" (click)="reorder()">
+                <i class="fa fa-sort-numeric-asc"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-lg-4">
+            <ng-select id="parent" [items]="parentList" [(ngModel)]="parentId" bindLabel="name" bindValue="id"
+              placeholder="Select law group... *" (ngModelChange)="resetData()">
+            </ng-select>
+          </div>
+          <div class="col-lg-2 ">
+            <button class="btn search-btn btn-outline-primary" (click)="getLaws()">Search Laws</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <ng-select id="law" [items]="lawList" [(ngModel)]="lawId" bindLabel="name" bindValue="id"
+              placeholder="Select law... *" (ngModelChange)="onChangeLaw()">
+            </ng-select>
+            <div class="text-muted text-color"> <small>Tip: Choose a main category first*</small></div>
+          </div>
+          <div class="col-lg-2">
+            <button class="btn search-btn btn-outline-primary" (click)="getSectionsExtentionForCombo()"
+              [disabled]="lawList.length==0">Search
+              Chapters</button>
+          </div>
+        </div>
+        <br>
+        <app-table (paginationEmitter)="onAlbanianTablePaginationValuesChange($event)"
+          [paginationModel]="albanianPaginationModel" [rows]="categoryList | filter:filterQuery"
+          [columns]="columnsCategory" [translate]="true" (actionClicked)="onActionClick($event, albanian)">
+        </app-table>
+      </div>
+    </tab>
+    <tab heading="English (en-US)" (selectTab)="onTabEvent(english)">
+      <div *ngIf="parentNameEN.length>0" class="row m-3 card-header">
+        <div class="col-lg-12">
+          <b>{{parentNameEN}} <span *ngIf="lawNameEN.length>0">/</span>{{lawNameEN}}</b>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search..."
+                autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row justify-content-end pr-3 m-1">
+              <button class="btn btn-outline-primary btn-icon btn-round" (click)="getMainCategoriesEN()">
+                <i class="fa fa-refresh"></i>
+              </button>
+              <button class="btn btn-outline-primary btn-icon btn-round" (click)="reorder()">
+                <i class="fa fa-sort-numeric-asc"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-lg-4">
+            <ng-select id="parent" [items]="parentListEN" [(ngModel)]="parentIdEN" bindLabel="name" bindValue="id"
+              placeholder="Select law group... *" (ngModelChange)="resetDataEN()">
+            </ng-select>
+          </div>
+          <div class="col-lg-2 ">
+            <button class="btn search-btn btn-outline-primary" (click)="getLawsEN()">Search Laws</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <ng-select id="lawEN" [items]="lawListEN" [(ngModel)]="lawIdEN" bindLabel="name" bindValue="id"
+              placeholder="Select law... *" (ngModelChange)="onChangeLawEN()">
+            </ng-select>
+            <div class="text-muted text-color"> <small>Tip: Choose a main category first*</small></div>
+          </div>
+          <div class="col-lg-2">
+            <button class="btn search-btn btn-outline-primary" (click)="getChaptersEN()"
+              [disabled]="lawListEN.length==0">Search
+              Chapters</button>
+          </div>
+        </div>
+        <br>
+        <app-table (paginationEmitter)="onEnglishTablePaginationValuesChange($event)"
+          [paginationModel]="englishPaginationModel" [rows]="categoryListEN | filter:filterQuery"
+          [columns]="columnsCategory" (actionClicked)="onActionClick($event, english)">
+        </app-table>
+      </div>
+    </tab>
+  </tabset>
+</div>
+
+<app-add-edit-category (submited)="refreshGrid()" #editElement></app-add-edit-category>
